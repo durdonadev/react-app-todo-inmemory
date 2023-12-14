@@ -51,6 +51,17 @@ class App extends React.Component {
                     />
                     <input type="submit" value="Add Todo" />
                 </form>
+                <ul>
+                    {this.state.todos.length >= 1 &&
+                        this.state.todos.map((todo) => {
+                            return (
+                                <li key={todo.id}>
+                                    <span>{todo.text}</span>
+                                    <input type="checkbox" />
+                                </li>
+                            );
+                        })}
+                </ul>
             </main>
         );
     }
