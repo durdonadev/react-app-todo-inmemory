@@ -32,6 +32,21 @@ class App extends React.Component {
         });
     };
 
+    updateTodo = (isDone, todoId) => {
+        this.setState((prevState) => {
+            const updatedTodos = prevState.todos.map((todo) => {
+                if (todo.id === todoId) {
+                    const copy = { ...todo, isDone: isDone };
+                    return copy;
+                }
+                return todo;
+            });
+            return {
+                todos: updatedTodos
+            };
+        });
+    };
+
     handleOnChange = (e) => {
         const { value } = e.target;
         this.setState({
@@ -55,9 +70,22 @@ class App extends React.Component {
                     {this.state.todos.length >= 1 &&
                         this.state.todos.map((todo) => {
                             return (
-                                <li key={todo.id}>
+                                <li
+                                    key={todo.id}
+                                    className={`todo ${
+                                        todo.isDone ? "todo--done" : ""
+                                    }`}
+                                >
                                     <span>{todo.text}</span>
-                                    <input type="checkbox" />
+                                    <input
+                                        type="checkbox"
+                                        onChange={(e) => {
+                                            this.updateTodo(
+                                                e.target.checked,
+                                                todo.id
+                                            );
+                                        }}
+                                    />
                                 </li>
                             );
                         })}
