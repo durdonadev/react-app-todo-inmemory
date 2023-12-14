@@ -1,4 +1,4 @@
-main {
+/* main {
     max-width: 800px;
     margin: 0 auto;
     padding: 100px;
@@ -15,4 +15,85 @@ input {
 
 .todo--done {
     text-decoration: line-through;
+} */
+
+body {
+    font-family: "Arial", sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+main {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+form {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.todo {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
+.todo--done {
+    text-decoration: line-through;
+    color: #888;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
 }
