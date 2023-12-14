@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { v4 as uuid } from "uuid";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.css";
+
+const todos = [{ id: 1, todo: "text", isDone: true }];
+
+class App extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            todos: [],
+            inputValue: ""
+        };
+    }
+
+    addTodo = (e) => {
+        e.preventDefault();
+        console.log(this.state.inputValue);
+        const newTodo = {
+            id: uuid(),
+            text: this.state.inputValue,
+            isDone: false
+        };
+
+        this.setState((prevState) => {
+            const copyTodos = [...prevState.todos, newTodo];
+            return {
+                todos: copyTodos,
+                inputValue: ""
+            };
+        });
+    };
+
+    handleOnChange = (e) => {
+        const { value } = e.target;
+        this.setState({
+            inputValue: value
+        });
+    };
+
+    render() {
+        return (
+            <main>
+                <form onSubmit={this.addTodo}>
+                    <input
+                        onChange={this.handleOnChange}
+                        value={this.state.inputValue}
+                        type="text"
+                        placeholder="What is your mind"
+                    />
+                    <input type="submit" value="Add Todo" />
+                </form>
+            </main>
+        );
+    }
 }
 
 export default App;
