@@ -47,6 +47,17 @@ class App extends React.Component {
         });
     };
 
+    deleteTodo = (todoId) => {
+        this.setState((prevState) => {
+            const keptTodos = prevState.todos.filter((todo) => {
+                return todo.id !== todoId;
+            });
+            return {
+                todos: keptTodos
+            };
+        });
+    };
+
     handleOnChange = (e) => {
         const { value } = e.target;
         this.setState({
@@ -86,6 +97,14 @@ class App extends React.Component {
                                             );
                                         }}
                                     />
+                                    <button
+                                        className="delete-btn"
+                                        onClick={() => {
+                                            this.deleteTodo(todo.id);
+                                        }}
+                                    >
+                                        X
+                                    </button>
                                 </li>
                             );
                         })}
