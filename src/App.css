@@ -7,3 +7,12 @@ main {
 input {
     margin-right: 20px;
 }
+
+.todo {
+    display: flex;
+    gap: 20px;
+}
+
+.todo--done {
+    text-decoration: line-through;
+}
