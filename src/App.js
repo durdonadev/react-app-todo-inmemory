@@ -126,6 +126,12 @@ class App extends React.Component {
         });
     };
 
+    closeEditModal = () => {
+        this.setState({
+            showEditModel: false
+        });
+    };
+
     render() {
         return (
             <main>
@@ -137,7 +143,7 @@ class App extends React.Component {
                             value={this.state.inputValue}
                             type="text"
                             placeholder="What is your mind"
-                        />{" "}
+                        />
                         <input type="submit" value="Add Todo" />
                         {this.state.inputError && (
                             <span className="error-message">Invalid Todo!</span>
