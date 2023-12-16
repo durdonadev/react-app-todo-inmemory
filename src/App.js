@@ -1,9 +1,9 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
+import Dialog from "@mui/material/Dialog";
+import { DialogTitle } from "@mui/material";
 
 import "./App.css";
-
-const todos = [{ id: 1, todo: "text", isDone: true }];
 
 class App extends React.Component {
     constructor() {
@@ -12,7 +12,7 @@ class App extends React.Component {
             todos: [],
             inputValue: "",
             inputError: false,
-            showEditModel: false,
+            showEditModal: false,
             inputEditValue: "",
             editingTodoId: ""
         };
@@ -88,7 +88,7 @@ class App extends React.Component {
 
     editTodo = (todoId) => {
         this.setState({
-            showEditModel: true
+            showEditModal: true
         });
         let todoText = "";
         for (const todo of this.state.todos) {
@@ -121,14 +121,14 @@ class App extends React.Component {
             });
             return {
                 todos: updatedTodos,
-                showEditModel: false
+                showEditModal: false
             };
         });
     };
 
     closeEditModal = () => {
         this.setState({
-            showEditModel: false
+            showEditModal: false
         });
     };
 
@@ -193,7 +193,7 @@ class App extends React.Component {
                         })}
                 </ul>
 
-                {this.state.showEditModel && (
+                {/* {this.state.showEditModal && (
                     <div className="modal">
                         <div className="modal-content">
                             <span
@@ -215,7 +215,32 @@ class App extends React.Component {
                             </button>
                         </div>
                     </div>
-                )}
+                )} */}
+
+                <Dialog
+                    open={this.state.showEditModal}
+                    onClose={this.closeEditModal}
+                >
+                    <div className="edit-form">
+                        <DialogTitle id="alert-dialog-title">
+                            Edit Todo
+                        </DialogTitle>
+                        <span
+                            className="close-icon"
+                            onClick={this.closeEditModal}
+                        >
+                            &times;
+                        </span>
+                        <input
+                            type="text"
+                            value={this.state.inputEditValue}
+                            onChange={this.handleInputEdit}
+                        />
+                        <button className="save-btn" onClick={this.submitEdit}>
+                            Save
+                        </button>
+                    </div>
+                </Dialog>
             </main>
         );
     }
