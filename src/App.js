@@ -1,5 +1,7 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
+import Dialog from "@mui/material/Dialog";
+import { DialogTitle } from "@mui/material";
 
 import "./App.css";
 
@@ -193,7 +195,7 @@ class App extends React.Component {
                         })}
                 </ul>
 
-                {this.state.showEditModel && (
+                {/* {this.state.showEditModel && (
                     <div className="modal">
                         <div className="modal-content">
                             <span
@@ -215,7 +217,32 @@ class App extends React.Component {
                             </button>
                         </div>
                     </div>
-                )}
+                )} */}
+
+                <Dialog
+                    open={this.state.showEditModel}
+                    onClose={this.closeEditModal}
+                >
+                    <div className="edit=form">
+                        <DialogTitle id="alert-dialog-title">
+                            Edit Todo
+                        </DialogTitle>
+                        <span
+                            className="close-icon"
+                            onClick={this.closeEditModal}
+                        >
+                            &times;
+                        </span>
+                        <input
+                            type="text"
+                            value={this.state.inputEditValue}
+                            onChange={this.handleInputEdit}
+                        />
+                        <button className="save-btn" onClick={this.submitEdit}>
+                            Save
+                        </button>
+                    </div>
+                </Dialog>
             </main>
         );
     }
