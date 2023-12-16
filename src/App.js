@@ -10,13 +10,24 @@ class App extends React.Component {
         super();
         this.state = {
             todos: [],
-            inputValue: ""
+            inputValue: "",
+            inputError: false,
+            showEditModel: false,
+            inputEditValue: "",
+            editingTodoId: ""
         };
     }
 
     addTodo = (e) => {
         e.preventDefault();
-        console.log(this.state.inputValue);
+
+        if (this.state.inputValue.length <= 1) {
+            this.setState({
+                inputError: true
+            });
+            return;
+        }
+
         const newTodo = {
             id: uuid(),
             text: this.state.inputValue,
@@ -47,6 +58,23 @@ class App extends React.Component {
         });
     };
 
+    handleOnChange = (e) => {
+        const { value } = e.target;
+        this.setState({
+            inputValue: value
+        });
+
+        if (value.length <= 1) {
+            this.setState({
+                inputError: true
+            });
+        } else {
+            this.setState({
+                inputError: false
+            });
+        }
+    };
+
     deleteTodo = (todoId) => {
         this.setState((prevState) => {
             const keptTodos = prevState.todos.filter((todo) => {
@@ -58,24 +86,69 @@ class App extends React.Component {
         });
     };
 
-    handleOnChange = (e) => {
-        const { value } = e.target;
+    editTodo = (todoId) => {
         this.setState({
-            inputValue: value
+            showEditModel: true
+        });
+        let todoText = "";
+        for (const todo of this.state.todos) {
+            if (todo.id === todoId) {
+                todoText = todo.text;
+                break;
+            }
+        }
+
+        this.setState({
+            inputEditValue: todoText,
+            editingTodoId: todoId
+        });
+    };
+
+    handleInputEdit = (e) => {
+        this.setState({
+            inputEditValue: e.target.value
+        });
+    };
+
+    submitEdit = () => {
+        this.setState((prevState) => {
+            const updatedTodos = prevState.todos.map((todo) => {
+                if (todo.id === this.state.editingTodoId) {
+                    const copy = { ...todo, text: this.state.inputEditValue };
+                    return copy;
+                }
+                return todo;
+            });
+            return {
+                todos: updatedTodos,
+                showEditModel: false
+            };
+        });
+    };
+
+    closeEditModal = () => {
+        this.setState({
+            showEditModel: false
         });
     };
 
     render() {
         return (
             <main>
+                <h1>Todo List</h1>
                 <form onSubmit={this.addTodo}>
-                    <input
-                        onChange={this.handleOnChange}
-                        value={this.state.inputValue}
-                        type="text"
-                        placeholder="What is your mind"
-                    />
-                    <input type="submit" value="Add Todo" />
+                    <div className="form-control">
+                        <input
+                            onChange={this.handleOnChange}
+                            value={this.state.inputValue}
+                            type="text"
+                            placeholder="What is your mind"
+                        />
+                        <input type="submit" value="Add Todo" />
+                        {this.state.inputError && (
+                            <span className="error-message">Invalid Todo!</span>
+                        )}
+                    </div>
                 </form>
                 <ul>
                     {this.state.todos.length >= 1 &&
@@ -88,6 +161,7 @@ class App extends React.Component {
                                     }`}
                                 >
                                     <span>{todo.text}</span>
+
                                     <input
                                         type="checkbox"
                                         onChange={(e) => {
@@ -97,18 +171,51 @@ class App extends React.Component {
                                             );
                                         }}
                                     />
+
                                     <button
                                         className="delete-btn"
                                         onClick={() => {
                                             this.deleteTodo(todo.id);
                                         }}
                                     >
-                                        X
+                                        Delete
+                                    </button>
+                                    <button
+                                        className="edit-btn"
+                                        onClick={() => {
+                                            this.editTodo(todo.id);
+                                        }}
+                                    >
+                                        Edit
                                     </button>
                                 </li>
                             );
                         })}
                 </ul>
+
+                {this.state.showEditModel && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <span
+                                className="close-icon"
+                                onClick={this.closeEditModal}
+                            >
+                                &times;
+                            </span>
+                            <input
+                                type="text"
+                                value={this.state.inputEditValue}
+                                onChange={this.handleInputEdit}
+                            />
+                            <button
+                                className="save-btn"
+                                onClick={this.submitEdit}
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                )}
             </main>
         );
     }
