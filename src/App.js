@@ -5,8 +5,6 @@ import { DialogTitle } from "@mui/material";
 
 import "./App.css";
 
-const todos = [{ id: 1, todo: "text", isDone: true }];
-
 class App extends React.Component {
     constructor() {
         super();
@@ -14,7 +12,7 @@ class App extends React.Component {
             todos: [],
             inputValue: "",
             inputError: false,
-            showEditModel: false,
+            showEditModal: false,
             inputEditValue: "",
             editingTodoId: ""
         };
@@ -90,7 +88,7 @@ class App extends React.Component {
 
     editTodo = (todoId) => {
         this.setState({
-            showEditModel: true
+            showEditModal: true
         });
         let todoText = "";
         for (const todo of this.state.todos) {
@@ -123,14 +121,14 @@ class App extends React.Component {
             });
             return {
                 todos: updatedTodos,
-                showEditModel: false
+                showEditModal: false
             };
         });
     };
 
     closeEditModal = () => {
         this.setState({
-            showEditModel: false
+            showEditModal: false
         });
     };
 
@@ -195,7 +193,7 @@ class App extends React.Component {
                         })}
                 </ul>
 
-                {/* {this.state.showEditModel && (
+                {/* {this.state.showEditModal && (
                     <div className="modal">
                         <div className="modal-content">
                             <span
@@ -220,10 +218,10 @@ class App extends React.Component {
                 )} */}
 
                 <Dialog
-                    open={this.state.showEditModel}
+                    open={this.state.showEditModal}
                     onClose={this.closeEditModal}
                 >
-                    <div className="edit=form">
+                    <div className="edit-form">
                         <DialogTitle id="alert-dialog-title">
                             Edit Todo
                         </DialogTitle>
